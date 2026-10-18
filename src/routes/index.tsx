@@ -1,23 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LayoutDashboard } from "lucide-react";
+import { PageHeader, EmptyState } from "@/components/PageScaffold";
+import { formatTanggal } from "@/lib/format";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Dashboard — Count Sales" },
+      { name: "description", content: "Sistem penjualan dan laporan keuangan untuk toko komputer." },
+      { property: "og:title", content: "Count Sales — Penjualan Toko Komputer" },
+      { property: "og:description", content: "Sistem penjualan dan laporan keuangan untuk toko komputer." },
+    ],
+  }),
+  component: Dashboard,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Dashboard() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
+    <div>
+      <PageHeader title="Dashboard" description={`Ringkasan toko hari ini · ${formatTanggal(new Date())}`} />
+      <EmptyState
+        icon={LayoutDashboard}
+        title="Belum ada data"
+        description="Ringkasan penjualan, stok, dan keuangan akan muncul setelah Anda menambahkan produk dan mencatat transaksi."
       />
     </div>
   );
