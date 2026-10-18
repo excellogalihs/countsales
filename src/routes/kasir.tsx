@@ -47,7 +47,10 @@ function KasirPage() {
 
   const add = (p: NonNullable<typeof prods.data>[number]) => {
     const inCart = cart.find((l) => l.product_id === p.id)?.qty ?? 0;
-    if (inCart + 1 > p.stock) return toast.error(`Stok ${p.name} tidak cukup (tersisa ${p.stock})`);
+    if (inCart + 1 > p.stock) {
+      toast.error(`Stok ${p.name} tidak cukup (tersisa ${p.stock})`);
+      return;
+    }
     setCart((c) => inCart
       ? c.map((l) => (l.product_id === p.id ? { ...l, qty: l.qty + 1 } : l))
       : [...c, { product_id: p.id, name: p.name, sku: p.sku, unit: p.unit, price: Number(p.sell_price), stock: p.stock, qty: 1 }]);
