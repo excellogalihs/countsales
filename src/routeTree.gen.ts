@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KategoriRouteImport } from './routes/kategori'
+import { Route as LaporanRouteImport } from './routes/laporan'
+import { Route as PembelianRouteImport } from './routes/pembelian'
+import { Route as PengaturanRouteImport } from './routes/pengaturan'
+import { Route as PengeluaranRouteImport } from './routes/pengeluaran'
+import { Route as PenjualanRouteImport } from './routes/penjualan'
+import { Route as ProdukRouteImport } from './routes/produk'
+import { Route as SupplierRouteImport } from './routes/supplier'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const KategoriRoute = KategoriRouteImport.update({
+  id: '/kategori',
+  path: '/kategori',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LaporanRoute = LaporanRouteImport.update({
+  id: '/laporan',
+  path: '/laporan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PembelianRoute = PembelianRouteImport.update({
+  id: '/pembelian',
+  path: '/pembelian',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PengaturanRoute = PengaturanRouteImport.update({
+  id: '/pengaturan',
+  path: '/pengaturan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PengeluaranRoute = PengeluaranRouteImport.update({
+  id: '/pengeluaran',
+  path: '/pengeluaran',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PenjualanRoute = PenjualanRouteImport.update({
+  id: '/penjualan',
+  path: '/penjualan',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdukRoute = ProdukRouteImport.update({
+  id: '/produk',
+  path: '/produk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupplierRoute = SupplierRouteImport.update({
+  id: '/supplier',
+  path: '/supplier',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kategori': typeof KategoriRoute
+  '/laporan': typeof LaporanRoute
+  '/pembelian': typeof PembelianRoute
+  '/pengaturan': typeof PengaturanRoute
+  '/pengeluaran': typeof PengeluaranRoute
+  '/penjualan': typeof PenjualanRoute
+  '/produk': typeof ProdukRoute
+  '/supplier': typeof SupplierRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kategori': typeof KategoriRoute
+  '/laporan': typeof LaporanRoute
+  '/pembelian': typeof PembelianRoute
+  '/pengaturan': typeof PengaturanRoute
+  '/pengeluaran': typeof PengeluaranRoute
+  '/penjualan': typeof PenjualanRoute
+  '/produk': typeof ProdukRoute
+  '/supplier': typeof SupplierRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kategori': typeof KategoriRoute
+  '/laporan': typeof LaporanRoute
+  '/pembelian': typeof PembelianRoute
+  '/pengaturan': typeof PengaturanRoute
+  '/pengeluaran': typeof PengeluaranRoute
+  '/penjualan': typeof PenjualanRoute
+  '/produk': typeof ProdukRoute
+  '/supplier': typeof SupplierRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/kategori'
+    | '/laporan'
+    | '/pembelian'
+    | '/pengaturan'
+    | '/pengeluaran'
+    | '/penjualan'
+    | '/produk'
+    | '/supplier'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/kategori'
+    | '/laporan'
+    | '/pembelian'
+    | '/pengaturan'
+    | '/pengeluaran'
+    | '/penjualan'
+    | '/produk'
+    | '/supplier'
+  id:
+    | '__root__'
+    | '/'
+    | '/kategori'
+    | '/laporan'
+    | '/pembelian'
+    | '/pengaturan'
+    | '/pengeluaran'
+    | '/penjualan'
+    | '/produk'
+    | '/supplier'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KategoriRoute: typeof KategoriRoute
+  LaporanRoute: typeof LaporanRoute
+  PembelianRoute: typeof PembelianRoute
+  PengaturanRoute: typeof PengaturanRoute
+  PengeluaranRoute: typeof PengeluaranRoute
+  PenjualanRoute: typeof PenjualanRoute
+  ProdukRoute: typeof ProdukRoute
+  SupplierRoute: typeof SupplierRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/kategori': {
+      id: '/kategori'
+      path: '/kategori'
+      fullPath: '/kategori'
+      preLoaderRoute: typeof KategoriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/laporan': {
+      id: '/laporan'
+      path: '/laporan'
+      fullPath: '/laporan'
+      preLoaderRoute: typeof LaporanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pembelian': {
+      id: '/pembelian'
+      path: '/pembelian'
+      fullPath: '/pembelian'
+      preLoaderRoute: typeof PembelianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pengaturan': {
+      id: '/pengaturan'
+      path: '/pengaturan'
+      fullPath: '/pengaturan'
+      preLoaderRoute: typeof PengaturanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pengeluaran': {
+      id: '/pengeluaran'
+      path: '/pengeluaran'
+      fullPath: '/pengeluaran'
+      preLoaderRoute: typeof PengeluaranRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/penjualan': {
+      id: '/penjualan'
+      path: '/penjualan'
+      fullPath: '/penjualan'
+      preLoaderRoute: typeof PenjualanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/produk': {
+      id: '/produk'
+      path: '/produk'
+      fullPath: '/produk'
+      preLoaderRoute: typeof ProdukRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/supplier': {
+      id: '/supplier'
+      path: '/supplier'
+      fullPath: '/supplier'
+      preLoaderRoute: typeof SupplierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KategoriRoute: KategoriRoute,
+  LaporanRoute: LaporanRoute,
+  PembelianRoute: PembelianRoute,
+  PengaturanRoute: PengaturanRoute,
+  PengeluaranRoute: PengeluaranRoute,
+  PenjualanRoute: PenjualanRoute,
+  ProdukRoute: ProdukRoute,
+  SupplierRoute: SupplierRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
