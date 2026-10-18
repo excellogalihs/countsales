@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as KasirRouteImport } from './routes/kasir'
 import { Route as KategoriRouteImport } from './routes/kategori'
 import { Route as LaporanRouteImport } from './routes/laporan'
 import { Route as PembelianRouteImport } from './routes/pembelian'
@@ -18,10 +19,16 @@ import { Route as PengeluaranRouteImport } from './routes/pengeluaran'
 import { Route as PenjualanRouteImport } from './routes/penjualan'
 import { Route as ProdukRouteImport } from './routes/produk'
 import { Route as SupplierRouteImport } from './routes/supplier'
+import { Route as StrukIdRouteImport } from './routes/struk.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KasirRoute = KasirRouteImport.update({
+  id: '/kasir',
+  path: '/kasir',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KategoriRoute = KategoriRouteImport.update({
@@ -64,9 +71,15 @@ const SupplierRoute = SupplierRouteImport.update({
   path: '/supplier',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StrukIdRoute = StrukIdRouteImport.update({
+  id: '/struk/$id',
+  path: '/struk/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/kasir': typeof KasirRoute
   '/kategori': typeof KategoriRoute
   '/laporan': typeof LaporanRoute
   '/pembelian': typeof PembelianRoute
@@ -75,9 +88,11 @@ export interface FileRoutesByFullPath {
   '/penjualan': typeof PenjualanRoute
   '/produk': typeof ProdukRoute
   '/supplier': typeof SupplierRoute
+  '/struk/$id': typeof StrukIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/kasir': typeof KasirRoute
   '/kategori': typeof KategoriRoute
   '/laporan': typeof LaporanRoute
   '/pembelian': typeof PembelianRoute
@@ -86,10 +101,12 @@ export interface FileRoutesByTo {
   '/penjualan': typeof PenjualanRoute
   '/produk': typeof ProdukRoute
   '/supplier': typeof SupplierRoute
+  '/struk/$id': typeof StrukIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/kasir': typeof KasirRoute
   '/kategori': typeof KategoriRoute
   '/laporan': typeof LaporanRoute
   '/pembelian': typeof PembelianRoute
@@ -98,11 +115,13 @@ export interface FileRoutesById {
   '/penjualan': typeof PenjualanRoute
   '/produk': typeof ProdukRoute
   '/supplier': typeof SupplierRoute
+  '/struk/$id': typeof StrukIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/kasir'
     | '/kategori'
     | '/laporan'
     | '/pembelian'
@@ -111,9 +130,11 @@ export interface FileRouteTypes {
     | '/penjualan'
     | '/produk'
     | '/supplier'
+    | '/struk/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/kasir'
     | '/kategori'
     | '/laporan'
     | '/pembelian'
@@ -122,9 +143,11 @@ export interface FileRouteTypes {
     | '/penjualan'
     | '/produk'
     | '/supplier'
+    | '/struk/$id'
   id:
     | '__root__'
     | '/'
+    | '/kasir'
     | '/kategori'
     | '/laporan'
     | '/pembelian'
@@ -133,10 +156,12 @@ export interface FileRouteTypes {
     | '/penjualan'
     | '/produk'
     | '/supplier'
+    | '/struk/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  KasirRoute: typeof KasirRoute
   KategoriRoute: typeof KategoriRoute
   LaporanRoute: typeof LaporanRoute
   PembelianRoute: typeof PembelianRoute
@@ -145,6 +170,7 @@ export interface RootRouteChildren {
   PenjualanRoute: typeof PenjualanRoute
   ProdukRoute: typeof ProdukRoute
   SupplierRoute: typeof SupplierRoute
+  StrukIdRoute: typeof StrukIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -154,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kasir': {
+      id: '/kasir'
+      path: '/kasir'
+      fullPath: '/kasir'
+      preLoaderRoute: typeof KasirRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kategori': {
@@ -212,11 +245,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SupplierRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/struk/$id': {
+      id: '/struk/$id'
+      path: '/struk/$id'
+      fullPath: '/struk/$id'
+      preLoaderRoute: typeof StrukIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  KasirRoute: KasirRoute,
   KategoriRoute: KategoriRoute,
   LaporanRoute: LaporanRoute,
   PembelianRoute: PembelianRoute,
@@ -225,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   PenjualanRoute: PenjualanRoute,
   ProdukRoute: ProdukRoute,
   SupplierRoute: SupplierRoute,
+  StrukIdRoute: StrukIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
