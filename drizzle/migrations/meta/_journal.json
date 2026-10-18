@@ -15,6 +15,13 @@
       "when": 1792324538050,
       "tag": "0001_sales",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792324883581,
+      "tag": "0002_suppliers_purchases_expenses",
+      "breakpoints": true
     }
   ]
 }

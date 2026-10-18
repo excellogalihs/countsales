@@ -32,6 +32,36 @@ export type Database = {
         }
         Relationships: []
       }
+      expenses: {
+        Row: {
+          amount: number
+          category: string
+          created_at: string
+          description: string | null
+          expense_date: string
+          id: string
+          payment_method: string
+        }
+        Insert: {
+          amount: number
+          category: string
+          created_at?: string
+          description?: string | null
+          expense_date: string
+          id?: string
+          payment_method: string
+        }
+        Update: {
+          amount?: number
+          category?: string
+          created_at?: string
+          description?: string | null
+          expense_date?: string
+          id?: string
+          payment_method?: string
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           barcode: string | null
@@ -87,6 +117,107 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchase_items: {
+        Row: {
+          cost_price: number
+          id: string
+          line_total: number
+          product_id: string
+          product_name: string
+          purchase_id: string
+          qty: number
+        }
+        Insert: {
+          cost_price: number
+          id?: string
+          line_total: number
+          product_id: string
+          product_name: string
+          purchase_id: string
+          qty: number
+        }
+        Update: {
+          cost_price?: number
+          id?: string
+          line_total?: number
+          product_id?: string
+          product_name?: string
+          purchase_id?: string
+          qty?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchase_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "purchase_items_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: false
+            referencedRelation: "purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      purchases: {
+        Row: {
+          client_ref: string
+          created_at: string
+          id: string
+          notes: string | null
+          number: string
+          paid: number
+          purchase_date: string
+          received: boolean
+          received_at: string | null
+          remaining: number | null
+          status: string | null
+          supplier_id: string
+          total: number
+        }
+        Insert: {
+          client_ref: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          number: string
+          paid?: number
+          purchase_date: string
+          received?: boolean
+          received_at?: string | null
+          remaining?: number | null
+          status?: string | null
+          supplier_id: string
+          total: number
+        }
+        Update: {
+          client_ref?: string
+          created_at?: string
+          id?: string
+          notes?: string | null
+          number?: string
+          paid?: number
+          purchase_date?: string
+          received?: boolean
+          received_at?: string | null
+          remaining?: number | null
+          status?: string | null
+          supplier_id?: string
+          total?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "purchases_supplier_id_fkey"
+            columns: ["supplier_id"]
+            isOneToOne: false
+            referencedRelation: "suppliers"
             referencedColumns: ["id"]
           },
         ]
@@ -184,11 +315,99 @@ export type Database = {
         }
         Relationships: []
       }
+      supplier_payments: {
+        Row: {
+          amount: number
+          client_ref: string
+          created_at: string
+          id: string
+          method: string
+          paid_at: string
+          purchase_id: string
+        }
+        Insert: {
+          amount: number
+          client_ref: string
+          created_at?: string
+          id?: string
+          method: string
+          paid_at: string
+          purchase_id: string
+        }
+        Update: {
+          amount?: number
+          client_ref?: string
+          created_at?: string
+          id?: string
+          method?: string
+          paid_at?: string
+          purchase_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supplier_payments_purchase_id_fkey"
+            columns: ["purchase_id"]
+            isOneToOne: false
+            referencedRelation: "purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suppliers: {
+        Row: {
+          address: string | null
+          contact: string | null
+          created_at: string
+          id: string
+          name: string
+          notes: string | null
+        }
+        Insert: {
+          address?: string | null
+          contact?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          notes?: string | null
+        }
+        Update: {
+          address?: string | null
+          contact?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          notes?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
+      add_supplier_payment: {
+        Args: {
+          _amount: number
+          _client_ref: string
+          _date: string
+          _method: string
+          _purchase_id: string
+        }
+        Returns: undefined
+      }
+      create_purchase: {
+        Args: {
+          _client_ref: string
+          _date: string
+          _items: Json
+          _method: string
+          _notes: string
+          _paid: number
+          _receive: boolean
+          _supplier_id: string
+        }
+        Returns: string
+      }
       create_sale: {
         Args: {
           _client_ref: string
@@ -199,6 +418,7 @@ export type Database = {
         }
         Returns: string
       }
+      receive_purchase: { Args: { _purchase_id: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
