@@ -91,12 +91,114 @@ export type Database = {
           },
         ]
       }
+      sale_items: {
+        Row: {
+          cost_price: number
+          id: string
+          line_total: number
+          price: number
+          product_id: string | null
+          product_name: string
+          qty: number
+          sale_id: string
+          sku: string
+          unit: string
+        }
+        Insert: {
+          cost_price: number
+          id?: string
+          line_total: number
+          price: number
+          product_id?: string | null
+          product_name: string
+          qty: number
+          sale_id: string
+          sku: string
+          unit: string
+        }
+        Update: {
+          cost_price?: number
+          id?: string
+          line_total?: number
+          price?: number
+          product_id?: string | null
+          product_name?: string
+          qty?: number
+          sale_id?: string
+          sku?: string
+          unit?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sale_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "sale_items_sale_id_fkey"
+            columns: ["sale_id"]
+            isOneToOne: false
+            referencedRelation: "sales"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sales: {
+        Row: {
+          change: number
+          client_ref: string
+          created_at: string
+          discount: number
+          id: string
+          number: string
+          paid: number
+          payment_method: string
+          subtotal: number
+          total: number
+        }
+        Insert: {
+          change: number
+          client_ref: string
+          created_at?: string
+          discount?: number
+          id?: string
+          number: string
+          paid: number
+          payment_method: string
+          subtotal: number
+          total: number
+        }
+        Update: {
+          change?: number
+          client_ref?: string
+          created_at?: string
+          discount?: number
+          id?: string
+          number?: string
+          paid?: number
+          payment_method?: string
+          subtotal?: number
+          total?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_sale: {
+        Args: {
+          _client_ref: string
+          _discount: number
+          _items: Json
+          _method: string
+          _paid: number
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
