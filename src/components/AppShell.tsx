@@ -46,7 +46,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <aside className="fixed inset-y-0 left-0 hidden w-64 border-r border-sidebar-border bg-sidebar lg:block">
+      <aside className="fixed inset-y-0 left-0 hidden w-64 print:!hidden border-r border-sidebar-border bg-sidebar lg:block">
         <Brand />
         <NavList />
       </aside>
@@ -68,14 +68,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
       )}
 
-      <div className="flex min-w-0 flex-1 flex-col lg:pl-64">
-        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-card/90 px-4 backdrop-blur lg:hidden">
+      <div className="flex min-w-0 flex-1 flex-col lg:pl-64 print:pl-0">
+        <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-card/90 px-4 backdrop-blur lg:hidden print:hidden">
           <button aria-label="Buka menu" onClick={() => setOpen(true)} className="rounded-md p-2 hover:bg-muted">
             <Menu className="h-5 w-5" />
           </button>
           <span className="font-bold">Count Sales</span>
         </header>
-        <main className="flex-1 p-4 md:p-8">{children}</main>
+        <main className="flex-1 p-4 md:p-8 print:p-0">{children}</main>
       </div>
     </div>
   );
