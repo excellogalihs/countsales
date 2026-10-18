@@ -88,7 +88,7 @@ function PengeluaranPage() {
   const open = (x: Expense | "new") => {
     setEditing(x);
     setForm(x === "new"
-      ? { expense_date: todayJakarta(), category: expenseCategories[0], description: "", amount: "", payment_method: "tunai" }
+      ? { expense_date: todayJakarta(), category: expenseCategories[0] ?? "Lainnya", description: "", amount: "", payment_method: "tunai" }
       : { expense_date: x.expense_date, category: x.category, description: x.description ?? "", amount: String(x.amount), payment_method: x.payment_method });
   };
 

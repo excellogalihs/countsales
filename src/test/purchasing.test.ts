@@ -6,7 +6,7 @@ const lines = [{ product_id: "p1", qty: "3", cost_price: "100000" }];
 describe("purchase", () => {
   it("totals qty x cost", () => expect(purchaseTotal(lines)).toBe(300000));
   it("rejects paying more than total", () => expect(validatePurchase("s1", lines, 300001)).not.toBeNull());
-  it("rejects negative cost", () => expect(validatePurchase("s1", [{ ...lines[0], cost_price: "-1" }], 0)).not.toBeNull());
+  it("rejects negative cost", () => expect(validatePurchase("s1", [{ product_id: "p1", qty: "3", cost_price: "-1" }], 0)).not.toBeNull());
   it("requires supplier", () => expect(validatePurchase("", lines, 0)).not.toBeNull());
   it("accepts valid purchase", () => expect(validatePurchase("s1", lines, 100000)).toBeNull());
 });
