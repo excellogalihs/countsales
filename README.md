@@ -1,58 +1,42 @@
-# Countsales
+# CountSales
 
-Buat aplikasi web bernama Count Sales, yaitu sistem penjualan dan laporan keuangan untuk toko komputer yang menjual LCD/monitor, flash drive, printer, tinta, RAM, SSD/HDD, keyboard, mouse, kabel, adaptor, komponen PC, dan aksesori komputer.
+**CountSales** is a web-based sales management application designed to help computer stores manage products, organize categories, and handle sales more efficiently.
 
-Tujuan: aplikasi yang sederhana, modern, responsif, mudah digunakan, dan benar-benar berfungsi untuk operasional toko.
+## Features
 
-Fondasi
+- **Product Management** — Organize and manage products such as LCD screens, flash drives, and other computer accessories.
+- **Category Management** — Group products into categories for easier organization.
+- **Sales Management** — Provide a foundation for recording and managing sales transactions.
+- **Simple Interface** — Keep everyday store operations organized and easy to navigate.
 
-Gunakan teknologi dan struktur proyek yang paling sesuai dengan lingkungan Emergent.
+## Project Goals
 
-Gunakan database persisten agar data tidak hilang ketika halaman dimuat ulang.
+CountSales aims to simplify daily sales operations for computer stores by bringing essential product and sales management tasks into one application.
 
-Buat dashboard utama dengan sidebar navigasi.
+## Getting Started
 
-Siapkan halaman Dashboard, Produk, Kategori, Penjualan, Pembelian Stok, Supplier, Pengeluaran, Laporan Keuangan, dan Pengaturan.
+1. Clone this repository:
 
-Untuk tahap ini, cukup buat kerangka halaman dan navigasi. Fitur detail akan dikembangkan melalui prompt berikutnya.
+   ```bash
+   git clone https://github.com/excellogalihs/countsales.git
+   ```
 
-Jangan isi laporan dengan angka palsu atau data penjualan statis. Jika database masih kosong, tampilkan kondisi kosong yang jelas.
+2. Enter the project directory:
 
-Gunakan bahasa Indonesia untuk seluruh antarmuka, format Rupiah (Rp), dan format tanggal Indonesia.
+   ```bash
+   cd countsales
+   ```
 
-Desain profesional dan bersih, dengan warna netral, aksen biru, tabel yang mudah dibaca, formulir sederhana, dan tampilan desktop maupun mobile yang responsif.
+3. Follow the installation and setup instructions for the technologies used in this project.
 
-Aturan penting
+## Project Status
 
-Jangan membuat fitur yang hanya terlihat berfungsi tetapi sebenarnya tidak bekerja.
+Under development.
 
-Jangan membuat ulang proyek jika fondasi sudah tersedia.
+## Author
 
-Prioritaskan struktur yang ringan dan mudah dikembangkan.
+**[excellogalihs](https://github.com/excellogalihs)**
 
-Pastikan aplikasi dapat dijalankan dan navigasi antarhalaman berfungsi.
+---
 
-Selesaikan fondasi ini saja. Jangan mengembangkan seluruh fitur sekaligus. Laporkan bagian yang sudah selesai dan kendala yang benar-benar ditemukan.
-
-This project was built with [Lovable](https://lovable.dev).
-
-**Live app**: https://countsales.lovable.app
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/b6a8e767-be53-4dff-8071-6fd64b724b9b).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
-```
+Built to make everyday sales management simpler.
