@@ -13,29 +13,9 @@
 
 CountSales aims to simplify daily sales operations for computer stores by bringing essential product and sales management tasks into one application.
 
-## Getting Started
-
-1. Clone this repository:
-
-   ```bash
-   git clone https://github.com/excellogalihs/countsales.git
-   ```
-
-2. Enter the project directory:
-
-   ```bash
-   cd countsales
-   ```
-
-3. Follow the installation and setup instructions for the technologies used in this project.
-
 ## Project Status
 
 Under development.
-
-## Author
-
-**[excellogalihs](https://github.com/excellogalihs)**
 
 ---
 
