@@ -18,7 +18,7 @@ export function periodRange(p: Period, today: string, from = "", to = ""): { fro
     return { from: start, to: shift(start, 6) };
   }
   if (p === "bulanan") {
-    const [y, m] = today.split("-").map(Number);
+    const y = Number(today.slice(0, 4)), m = Number(today.slice(5, 7));
     const last = new Date(Date.UTC(y, m, 0)).getUTCDate();
     return { from: `${today.slice(0, 7)}-01`, to: `${today.slice(0, 7)}-${String(last).padStart(2, "0")}` };
   }
