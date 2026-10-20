@@ -4,6 +4,8 @@ import { useState, type ReactNode } from "react";
 import { navItemsFor } from "@/lib/nav";
 import { roleLabels } from "@/lib/auth";
 import { useAuth } from "@/components/AuthProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/components/ThemeProvider";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -49,11 +51,27 @@ function Brand() {
   );
 }
 
+function ThemeRow() {
+  const { theme } = useTheme();
+  return (
+    <div className="mb-3 flex items-center justify-between gap-2 rounded-lg border border-sidebar-border/70 bg-sidebar-accent/40 px-3 py-2">
+      <div className="min-w-0">
+        <div className="text-xs font-medium text-sidebar-foreground">Tampilan</div>
+        <div className="truncate text-[11px] text-muted-foreground">
+          {theme === "dark" ? "Mode gelap" : "Mode terang"}
+        </div>
+      </div>
+      <ThemeToggle />
+    </div>
+  );
+}
+
 function AccountBox({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   const { profile, signOut } = useAuth();
   if (!profile) return null;
   return (
     <div className="border-t border-sidebar-border p-3">
+      <ThemeRow />
       <div className="mb-2 px-1">
         <div className="truncate text-sm font-medium text-sidebar-foreground">
           {profile.username}
@@ -119,6 +137,7 @@ export function AppShell({ children }: { children: ReactNode }) {
             <Menu className="h-5 w-5" />
           </button>
           <span className="font-bold">Count Sales</span>
+          <ThemeToggle className="ml-auto" />
         </header>
         <main className="flex-1 p-4 md:p-8 print:p-0">{children}</main>
       </div>

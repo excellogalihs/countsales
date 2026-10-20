@@ -137,9 +137,44 @@
     border-color: var(--color-border);
   }
 
+  html {
+    color-scheme: light;
+  }
+
+  html.dark {
+    color-scheme: dark;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+    transition:
+      background-color 300ms ease,
+      color 300ms ease;
+  }
+
+  /* Enabled for ~350ms while the theme switches so the palette cross-fades
+     instead of snapping. */
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      color 300ms ease,
+      fill 300ms ease,
+      stroke 300ms ease,
+      box-shadow 300ms ease !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.theme-transition,
+    html.theme-transition *,
+    html.theme-transition *::before,
+    html.theme-transition *::after {
+      transition: none !important;
+    }
   }
 }
