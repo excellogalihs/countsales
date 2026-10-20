@@ -29,6 +29,13 @@
       "when": 1792456701180,
       "tag": "0003_store_settings_and_user_access",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792457701180,
+      "tag": "0004_store_logo_bucket",
+      "breakpoints": true
     }
   ]
 }

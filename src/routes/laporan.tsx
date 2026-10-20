@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Download, Printer, AlertTriangle } from "lucide-react";
+import { Download, Printer, AlertTriangle, FileBarChart } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { supabase } from "@/integrations/supabase/client";
-import { PageHeader } from "@/components/PageScaffold";
+import { PageHeader, EmptyState } from "@/components/PageScaffold";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -119,6 +119,9 @@ function LaporanPage() {
 
   const loading = data.isLoading || position.isLoading;
   const failed = data.error || position.error;
+  const databaseEmpty =
+    !!data.data && data.data.sales.length === 0 && data.data.expenses.length === 0 && data.data.payments.length === 0 &&
+    !!position.data && position.data.products.length === 0 && position.data.purchases.length === 0;
 
   return (
     <div className="print:text-black">
@@ -144,7 +147,13 @@ function LaporanPage() {
 
       {loading ? <p className="text-sm text-muted-foreground">Memuat laporan…</p>
         : failed || !r ? <p className="text-sm text-destructive">Gagal memuat laporan.</p>
-        : (
+        : databaseEmpty ? (
+          <EmptyState
+            icon={FileBarChart}
+            title="Belum ada data keuangan"
+            description="Laporan akan terisi otomatis setelah Anda menambahkan produk, mencatat penjualan, pembelian stok, atau pengeluaran."
+          />
+        ) : (
           <div className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {[["Penjualan bersih", r.sales.net], ["Laba bersih", r.pl.netProfit], ["Arus kas bersih", r.cash.netCash], ["Sisa utang supplier", ap.remaining]].map(([l, v]) => (

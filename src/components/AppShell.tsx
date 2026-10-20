@@ -1,32 +1,39 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Menu, X, Monitor } from "lucide-react";
+import { Menu, X, Monitor, LogOut } from "lucide-react";
 import { useState, type ReactNode } from "react";
-import { navItems } from "@/lib/nav";
+import { navItemsFor } from "@/lib/nav";
+import { roleLabels } from "@/lib/auth";
+import { useAuth } from "@/components/AuthProvider";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-function NavList({ onNavigate }: { onNavigate?: () => void }) {
+function NavList({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const { profile } = useAuth();
+  const items = profile ? navItemsFor(profile.role) : [];
   return (
-    <nav className="flex flex-col gap-1 p-3">
-      {navItems.map((item) => {
-        const active = item.to === "/" ? path === "/" : path.startsWith(item.to);
-        return (
-          <Link
-            key={item.to}
-            to={item.to}
-            onClick={onNavigate}
-            className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
-              active
-                ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent",
-            )}
-          >
-            <item.icon className="h-4 w-4" />
-            {item.label}
-          </Link>
-        );
-      })}
+    <nav className="flex-1 overflow-y-auto p-3">
+      <div className="flex flex-col gap-1">
+        {items.map((item) => {
+          const active = item.to === "/" ? path === "/" : path.startsWith(item.to);
+          return (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={onNavigate}
+              className={cn(
+                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                active
+                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                  : "text-sidebar-foreground hover:bg-sidebar-accent",
+              )}
+            >
+              <item.icon className="h-4 w-4" />
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }
@@ -42,13 +49,48 @@ function Brand() {
   );
 }
 
+function AccountBox({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
+  const { profile, signOut } = useAuth();
+  if (!profile) return null;
+  return (
+    <div className="border-t border-sidebar-border p-3">
+      <div className="mb-2 px-1">
+        <div className="truncate text-sm font-medium text-sidebar-foreground">
+          {profile.username}
+        </div>
+        <div className="text-xs text-muted-foreground">{roleLabels[profile.role]}</div>
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        className="w-full"
+        onClick={() => {
+          onNavigate?.();
+          void signOut();
+        }}
+      >
+        <LogOut className="h-4 w-4" /> Keluar
+      </Button>
+    </div>
+  );
+}
+
+function SidebarBody({ onNavigate }: { onNavigate?: (() => void) | undefined }) {
+  return (
+    <div className="flex h-full flex-col">
+      <Brand />
+      <NavList onNavigate={onNavigate} />
+      <AccountBox onNavigate={onNavigate} />
+    </div>
+  );
+}
+
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <aside className="fixed inset-y-0 left-0 hidden w-64 print:!hidden border-r border-sidebar-border bg-sidebar lg:block">
-        <Brand />
-        <NavList />
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-sidebar-border bg-sidebar lg:flex lg:flex-col print:!hidden">
+        <SidebarBody />
       </aside>
 
       {open && (
@@ -58,19 +100,22 @@ export function AppShell({ children }: { children: ReactNode }) {
             <button
               aria-label="Tutup menu"
               onClick={() => setOpen(false)}
-              className="absolute right-3 top-4 rounded-md p-1 hover:bg-sidebar-accent"
+              className="absolute right-3 top-4 z-10 rounded-md p-1 hover:bg-sidebar-accent"
             >
               <X className="h-5 w-5" />
             </button>
-            <Brand />
-            <NavList onNavigate={() => setOpen(false)} />
+            <SidebarBody onNavigate={() => setOpen(false)} />
           </aside>
         </div>
       )}
 
       <div className="flex min-w-0 flex-1 flex-col lg:pl-64 print:pl-0">
         <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-card/90 px-4 backdrop-blur lg:hidden print:hidden">
-          <button aria-label="Buka menu" onClick={() => setOpen(true)} className="rounded-md p-2 hover:bg-muted">
+          <button
+            aria-label="Buka menu"
+            onClick={() => setOpen(true)}
+            className="rounded-md p-2 hover:bg-muted"
+          >
             <Menu className="h-5 w-5" />
           </button>
           <span className="font-bold">Count Sales</span>

@@ -9,17 +9,44 @@ import {
   Wallet,
   FileBarChart,
   Settings,
+  type LucideIcon,
 } from "lucide-react";
+import type { Role } from "@/lib/auth";
 
-export const navItems = [
-  { to: "/", label: "Dashboard", icon: LayoutDashboard },
-  { to: "/produk", label: "Produk", icon: Package },
-  { to: "/kategori", label: "Kategori", icon: Tags },
-  { to: "/kasir", label: "Kasir", icon: Calculator },
-  { to: "/penjualan", label: "Riwayat Penjualan", icon: ShoppingCart },
-  { to: "/pembelian", label: "Pembelian Stok", icon: PackagePlus },
-  { to: "/supplier", label: "Supplier", icon: Truck },
-  { to: "/pengeluaran", label: "Pengeluaran", icon: Wallet },
-  { to: "/laporan", label: "Laporan Keuangan", icon: FileBarChart },
-  { to: "/pengaturan", label: "Pengaturan", icon: Settings },
-] as const;
+/** Every navigable path in the app; keeps `Link` fully typed. */
+export type NavPath =
+  | "/"
+  | "/produk"
+  | "/kategori"
+  | "/kasir"
+  | "/penjualan"
+  | "/pembelian"
+  | "/supplier"
+  | "/pengeluaran"
+  | "/laporan"
+  | "/pengaturan";
+
+export type NavItem = {
+  to: NavPath;
+  label: string;
+  icon: LucideIcon;
+  /** Roles allowed to see and open the page. Mirrored by `routeRoles` in lib/access.ts. */
+  roles: readonly Role[];
+};
+
+export const navItems: readonly NavItem[] = [
+  { to: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "kasir"] },
+  { to: "/produk", label: "Produk", icon: Package, roles: ["admin"] },
+  { to: "/kategori", label: "Kategori", icon: Tags, roles: ["admin"] },
+  { to: "/kasir", label: "Kasir", icon: Calculator, roles: ["admin", "kasir"] },
+  { to: "/penjualan", label: "Riwayat Penjualan", icon: ShoppingCart, roles: ["admin", "kasir"] },
+  { to: "/pembelian", label: "Pembelian Stok", icon: PackagePlus, roles: ["admin"] },
+  { to: "/supplier", label: "Supplier", icon: Truck, roles: ["admin"] },
+  { to: "/pengeluaran", label: "Pengeluaran", icon: Wallet, roles: ["admin"] },
+  { to: "/laporan", label: "Laporan Keuangan", icon: FileBarChart, roles: ["admin"] },
+  { to: "/pengaturan", label: "Pengaturan", icon: Settings, roles: ["admin"] },
+];
+
+export function navItemsFor(role: Role): readonly NavItem[] {
+  return navItems.filter((item) => item.roles.includes(role));
+}

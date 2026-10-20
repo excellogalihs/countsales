@@ -464,6 +464,10 @@ export type Database = {
         }
         Returns: undefined
       }
+      app_setup_required: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       admin_set_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
