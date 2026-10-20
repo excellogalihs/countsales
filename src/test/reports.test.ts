@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildReport, periodRange } from "@/lib/reports";
+import { buildReport, dateRangeError, periodRange } from "@/lib/reports";
 
 const sales = [
   { created_at: "2026-10-19T03:00:00Z", subtotal: 1_000_000, discount: 50_000, total: 950_000, payment_method: "tunai", sale_items: [{ qty: 2, cost_price: 300_000 }] },
@@ -14,4 +14,14 @@ describe("reports", () => {
   it("cash out = supplier payments + opex", () => { expect(r.cash.outflow).toBe(600_000); expect(r.cash.netCash).toBe(550_000); });
   it("week starts Monday", () => expect(periodRange("mingguan", "2026-10-21")).toEqual({ from: "2026-10-19", to: "2026-10-25" }));
   it("month range", () => expect(periodRange("bulanan", "2026-02-10")).toEqual({ from: "2026-02-01", to: "2026-02-28" }));
+  it("rejects a reversed custom range", () => {
+    expect(dateRangeError("2026-10-20", "2026-10-01")).toBe(
+      "Tanggal awal tidak boleh setelah tanggal akhir",
+    );
+  });
+  it("accepts same-day, empty, and ordered ranges", () => {
+    expect(dateRangeError("2026-10-20", "2026-10-20")).toBeNull();
+    expect(dateRangeError("", "2026-10-20")).toBeNull();
+    expect(dateRangeError("2026-10-01", "2026-10-20")).toBeNull();
+  });
 });

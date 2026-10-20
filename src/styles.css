@@ -178,3 +178,21 @@
     }
   }
 }
+
+/* Recharts ships a white tooltip with inherited text color. Force the app
+   palette so labels and values stay readable in both light and dark mode. */
+.recharts-default-tooltip {
+  background-color: var(--popover) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius);
+  color: var(--popover-foreground) !important;
+}
+
+.recharts-default-tooltip .recharts-tooltip-label,
+.recharts-default-tooltip .recharts-tooltip-item,
+.recharts-default-tooltip .recharts-tooltip-item-name,
+.recharts-default-tooltip .recharts-tooltip-item-separator,
+.recharts-default-tooltip .recharts-tooltip-item-value,
+.recharts-default-tooltip .recharts-tooltip-item-unit {
+  color: var(--popover-foreground) !important;
+}

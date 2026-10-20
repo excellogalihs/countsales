@@ -2,7 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Download, Printer, AlertTriangle, FileBarChart } from "lucide-react";
 import { useMemo, useState } from "react";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  type TooltipProps,
+} from "recharts";
 import { supabase } from "@/integrations/supabase/client";
 import { PageHeader, EmptyState } from "@/components/PageScaffold";
 import { Button } from "@/components/ui/button";
@@ -11,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { formatRupiah } from "@/lib/format";
 import { dayEnd, dayStart, paymentLabels, type PaymentMethod } from "@/lib/sales";
 import { todayJakarta, formatTanggalPendek } from "@/lib/purchasing";
-import { buildReport, buildSeries, periodLabels, periodRange, toCsv, type Period } from "@/lib/reports";
+import { buildReport, buildSeries, dateRangeError, periodLabels, periodRange, toCsv, type Period } from "@/lib/reports";
 
 export const Route = createFileRoute("/laporan")({
   head: () => ({
@@ -44,6 +54,33 @@ function download(name: string, csv: string) {
   setTimeout(() => URL.revokeObjectURL(url), 30000);
 }
 
+/**
+ * Recharts' default tooltip relies on inline colors; this version uses the
+ * theme classes so the text always matches the active light/dark palette.
+ */
+function ReportTooltip({ active, payload, label }: TooltipProps<number, string>) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div className="min-w-40 rounded-lg border border-border bg-popover px-3 py-2 text-popover-foreground shadow-lg">
+      <p className="mb-1.5 text-xs font-medium text-muted-foreground">{label}</p>
+      <div className="space-y-1">
+        {payload.map((entry) => (
+          <div key={String(entry.dataKey)} className="flex items-center gap-2 text-xs">
+            <span
+              className="h-2 w-2 shrink-0 rounded-full"
+              style={{ backgroundColor: entry.color }}
+            />
+            <span className="text-muted-foreground">{entry.name}</span>
+            <span className="ml-auto font-semibold tabular-nums text-popover-foreground">
+              {formatRupiah(Number(entry.value))}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Row({ label, value, strong, neg }: { label: string; value: number; strong?: boolean; neg?: boolean }) {
   return (
     <div className={`flex justify-between gap-4 py-1.5 text-sm ${strong ? "border-t pt-2 font-semibold" : ""}`}>
@@ -63,9 +100,11 @@ function LaporanPage() {
   const [cTo, setCTo] = useState("");
   const today = todayJakarta();
   const { from, to } = periodRange(period, today, cFrom, cTo);
+  const rangeError = period === "khusus" ? dateRangeError(from, to) : null;
 
   const data = useQuery({
     queryKey: ["report", from, to],
+    enabled: !rangeError,
     queryFn: async () => {
       const [sales, expenses, payments] = await Promise.all([
         fetchAll((a, b) => supabase.from("sales").select("created_at, subtotal, discount, total, payment_method, sale_items(qty, cost_price)").gte("created_at", dayStart(from)).lte("created_at", dayEnd(to)).order("created_at").range(a, b)),
@@ -145,7 +184,8 @@ function LaporanPage() {
         )}
       </div>
 
-      {loading ? <p className="text-sm text-muted-foreground">Memuat laporan…</p>
+      {rangeError ? <p className="text-sm text-destructive">{rangeError}</p>
+        : loading ? <p className="text-sm text-muted-foreground">Memuat laporan…</p>
         : failed || !r ? <p className="text-sm text-destructive">Gagal memuat laporan.</p>
         : databaseEmpty ? (
           <EmptyState
@@ -167,10 +207,25 @@ function LaporanPage() {
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={series}>
                       <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                      <XAxis dataKey="label" fontSize={11} stroke="var(--muted-foreground)" />
-                      <YAxis fontSize={11} stroke="var(--muted-foreground)" tickFormatter={(v) => new Intl.NumberFormat("id-ID", { notation: "compact" }).format(v)} />
-                      <Tooltip formatter={(v: number) => formatRupiah(v)} />
-                      <Legend />
+                      <XAxis
+                        dataKey="label"
+                        fontSize={11}
+                        stroke="var(--muted-foreground)"
+                        tick={{ fill: "var(--muted-foreground)" }}
+                      />
+                      <YAxis
+                        fontSize={11}
+                        stroke="var(--muted-foreground)"
+                        tick={{ fill: "var(--muted-foreground)" }}
+                        tickFormatter={(v) => new Intl.NumberFormat("id-ID", { notation: "compact" }).format(v)}
+                      />
+                      <Tooltip
+                        cursor={{ fill: "var(--muted-foreground)", fillOpacity: 0.12 }}
+                        content={<ReportTooltip />}
+                      />
+                      <Legend
+                        formatter={(value) => <span className="text-xs text-foreground">{value}</span>}
+                      />
                       <Bar dataKey="penjualan" name="Penjualan" fill="var(--primary)" radius={[3, 3, 0, 0]} />
                       <Bar dataKey="laba" name="Laba bersih" fill="var(--muted-foreground)" radius={[3, 3, 0, 0]} />
                     </BarChart>

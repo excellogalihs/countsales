@@ -26,6 +26,12 @@ export function periodRange(p: Period, today: string, from = "", to = ""): { fro
   return { from: from || today, to: to || from || today };
 }
 
+/** Validation message for an inclusive date range, or null when valid. */
+export function dateRangeError(from: string, to: string): string | null {
+  if (from && to && from > to) return "Tanggal awal tidak boleh setelah tanggal akhir";
+  return null;
+}
+
 export const jakartaDate = (iso: string) =>
   new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta" }).format(new Date(iso));
 
