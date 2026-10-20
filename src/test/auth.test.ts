@@ -37,11 +37,12 @@ describe("username handling", () => {
 });
 
 describe("password rules", () => {
-  it("requires at least 8 chars with letters and numbers", () => {
+  it("requires at least 6 chars and allows any characters", () => {
     expect(validatePassword("rahasia123")).toBeNull();
-    expect(validatePassword("pendek1")).toBeTruthy();
-    expect(validatePassword("hanyahuruf")).toBeTruthy();
-    expect(validatePassword("12345678")).toBeTruthy();
+    expect(validatePassword("pendek1")).toBeNull();
+    expect(validatePassword("hanyahuruf")).toBeNull();
+    expect(validatePassword("123456")).toBeNull();
+    expect(validatePassword("abc12")).toBeTruthy();
     expect(validatePassword("")).toBeTruthy();
   });
 

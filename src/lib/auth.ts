@@ -28,8 +28,7 @@ export const USERNAME_PATTERN = /^[a-z0-9][a-z0-9._-]{2,31}$/;
 export const USERNAME_HINT =
   "3–32 karakter, huruf kecil/angka, boleh titik, garis bawah, atau strip.";
 
-export const PASSWORD_HINT =
-  "Minimal 8 karakter dan mengandung huruf serta angka. Sebaiknya tambahkan huruf besar dan simbol.";
+export const PASSWORD_HINT = "Minimal 6 karakter.";
 
 export function normalizeUsername(value: string): string {
   return value.trim().toLowerCase();
@@ -50,10 +49,9 @@ export function validateUsername(value: string): string | null {
 /** Returns an error message (Indonesian) or null when the password is valid. */
 export function validatePassword(value: string): string | null {
   if (!value) return "Kata sandi wajib diisi";
-  if (value.length < 8) return "Kata sandi minimal 8 karakter";
+  if (value.length < 6) return "Kata sandi minimal 6 karakter";
+  // bcrypt (used by Supabase Auth) only considers the first 72 bytes.
   if (value.length > 72) return "Kata sandi maksimal 72 karakter";
-  if (!/[A-Za-z]/.test(value)) return "Kata sandi harus mengandung huruf";
-  if (!/[0-9]/.test(value)) return "Kata sandi harus mengandung angka";
   return null;
 }
 
