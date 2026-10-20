@@ -56,9 +56,28 @@ function parseCredentials(input: unknown, requireConfirm: boolean) {
 
 function authErrorMessage(error: { message?: string } | null): string {
   const message = error?.message ?? "";
-  if (/already|registered|exists/i.test(message)) return "Nama pengguna sudah digunakan.";
-  if (/password/i.test(message)) return "Kata sandi tidak memenuhi syarat.";
-  return "Gagal menyimpan akun pengguna.";
+  if (/already|registered|exists|duplicate/i.test(message)) {
+    return "Nama pengguna sudah digunakan.";
+  }
+  const minimum = message.match(/at least (\d+) characters?/i);
+  if (minimum) return `Kata sandi minimal ${minimum[1]} karakter.`;
+  const maximum = message.match(/at most (\d+) characters?/i);
+  if (maximum) return `Kata sandi maksimal ${maximum[1]} karakter.`;
+  if (/character of each|required characters|contains at least one/i.test(message)) {
+    return "Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan simbol.";
+  }
+  if (/weak|easy to guess|pwned|leaked|breach/i.test(message)) {
+    return "Kata sandi terlalu umum dan mudah ditebak. Gunakan kata sandi lain.";
+  }
+  if (/email/i.test(message)) {
+    return `Email internal ditolak oleh Supabase: ${message}`;
+  }
+  if (/password/i.test(message)) {
+    return `Kata sandi ditolak oleh Supabase: ${message}`;
+  }
+  return message
+    ? `Gagal menyimpan akun pengguna: ${message}`
+    : "Gagal menyimpan akun pengguna.";
 }
 
 /** Removes a half-created account so a failed creation never leaves an orphan login. */

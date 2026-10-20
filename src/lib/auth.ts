@@ -28,7 +28,8 @@ export const USERNAME_PATTERN = /^[a-z0-9][a-z0-9._-]{2,31}$/;
 export const USERNAME_HINT =
   "3–32 karakter, huruf kecil/angka, boleh titik, garis bawah, atau strip.";
 
-export const PASSWORD_HINT = "Minimal 8 karakter dan mengandung huruf dan angka.";
+export const PASSWORD_HINT =
+  "Minimal 8 karakter dan mengandung huruf serta angka. Sebaiknya tambahkan huruf besar dan simbol.";
 
 export function normalizeUsername(value: string): string {
   return value.trim().toLowerCase();
