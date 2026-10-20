@@ -22,6 +22,13 @@
       "when": 1792324883581,
       "tag": "0002_suppliers_purchases_expenses",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792456701180,
+      "tag": "0003_store_settings_and_user_access",
+      "breakpoints": true
     }
   ]
 }
