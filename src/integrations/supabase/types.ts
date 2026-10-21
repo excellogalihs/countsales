@@ -471,6 +471,7 @@ export type Database = {
         }
         Returns: undefined
       }
+      app_setup_required: { Args: never; Returns: boolean }
       create_purchase: {
         Args: {
           _client_ref: string
