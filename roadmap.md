@@ -1,4 +1,5 @@
 # Current tasks
+- [ ] Replace the Dashboard empty state with real summaries: today's sales, low-stock products, recent transactions.
 - [x] Persist store settings and apply them to receipts.
 - [x] Add username login with master/Admin and kasir/Cashier accounts.
 - [x] Enforce backend permissions and provide Admin user management.
