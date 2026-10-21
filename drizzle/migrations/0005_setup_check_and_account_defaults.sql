@@ -1,0 +1,30 @@
+-- Ensure receipts have sensible defaults before the first save from /pengaturan.
+INSERT INTO public.store_settings (id, name) VALUES (1, 'Count Sales')
+ON CONFLICT (id) DO NOTHING;
+
+-- Signed-out visitors must never reach these tables (0003 policies already
+-- restrict rows; this removes the leftover grants on the anon role).
+REVOKE ALL ON public.user_accounts FROM anon;
+REVOKE ALL ON public.user_roles FROM anon;
+REVOKE ALL ON public.store_settings FROM anon;
+
+-- 0003 omitted the cascade on user_accounts, which would leave orphan rows when
+-- an auth user is deleted from the Admin screen.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'user_accounts_user_id_fkey'
+  ) THEN
+    ALTER TABLE public.user_accounts
+      ADD CONSTRAINT user_accounts_user_id_fkey
+      FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE CASCADE;
+  END IF;
+END $$;
+
+-- Public bootstrap check: exposes only whether the first Admin exists.
+CREATE OR REPLACE FUNCTION public.app_setup_required() RETURNS boolean
+LANGUAGE sql STABLE SECURITY DEFINER SET search_path = public AS $$
+  SELECT NOT EXISTS (SELECT 1 FROM public.user_accounts);
+$$;
+REVOKE ALL ON FUNCTION public.app_setup_required() FROM PUBLIC;
+GRANT EXECUTE ON FUNCTION public.app_setup_required() TO anon, authenticated;

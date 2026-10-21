@@ -36,6 +36,13 @@
       "when": 1792457701180,
       "tag": "0004_store_logo_bucket",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792592865585,
+      "tag": "0005_setup_check_and_account_defaults",
+      "breakpoints": true
     }
   ]
 }
