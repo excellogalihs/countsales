@@ -14,6 +14,8 @@ import {
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { categoriesQuery, productsQuery, dbErrorMessage, type Category } from "@/lib/catalog";
+import { useAuth } from "@/components/AuthProvider";
+import { canDeleteInventory } from "@/lib/access";
 
 export const Route = createFileRoute("/kategori")({
   head: () => ({
@@ -28,6 +30,8 @@ export const Route = createFileRoute("/kategori")({
 });
 
 function KategoriPage() {
+  const { profile } = useAuth();
+  const allowDelete = profile ? canDeleteInventory(profile.role) : false;
   const qc = useQueryClient();
   const cats = useQuery(categoriesQuery);
   const prods = useQuery(productsQuery);
@@ -95,7 +99,7 @@ function KategoriPage() {
                   <td className="px-4 py-3 text-muted-foreground">{usage(c.id)}</td>
                   <td className="px-4 py-3 text-right">
                     <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => open(c)}><Pencil className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete(c)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                    {allowDelete && <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete(c)}><Trash2 className="h-4 w-4 text-destructive" /></Button>}
                   </td>
                 </tr>
               ))}

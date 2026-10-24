@@ -17,6 +17,8 @@ import {
 } from "@/lib/purchasing";
 import { paymentLabels, type PaymentMethod } from "@/lib/sales";
 import { formatRupiah } from "@/lib/format";
+import { useAuth } from "@/components/AuthProvider";
+import { canRecordSupplierPayment } from "@/lib/access";
 
 const selectCls = "h-9 w-full rounded-md border border-input bg-card px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
 
@@ -114,6 +116,8 @@ function PembelianPage() {
 }
 
 function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated: (id: string) => void }) {
+  const { profile } = useAuth();
+  const allowPayment = profile ? canRecordSupplierPayment(profile.role) : false;
   const prods = useQuery(productsQuery);
   const sups = useQuery({
     queryKey: ["suppliers"],
@@ -142,7 +146,7 @@ function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated
       const { data, error } = await supabase.rpc("create_purchase", {
         _client_ref: clientRef.current, _supplier_id: supplierId, _date: date,
         _items: lines.map((l) => ({ product_id: l.product_id, qty: Number(l.qty), cost_price: Number(l.cost_price) })),
-        _paid: Number(paid) || 0, _method: method, _receive: receive, _notes: notes,
+        _paid: allowPayment ? Number(paid) || 0 : 0, _method: method, _receive: receive, _notes: notes,
       });
       if (error) throw new Error(error.message);
       return data as string;
@@ -192,7 +196,7 @@ function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated
 
             <div className="flex justify-between border-t pt-3 text-base font-semibold"><span>Total</span><span className="tabular-nums">{formatRupiah(total)}</span></div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            {allowPayment && <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-1"><Label htmlFor="p-paid">Dibayar sekarang (Rp)</Label><Input id="p-paid" type="number" min={0} placeholder="0" value={paid} onChange={(e) => setPaid(e.target.value)} /></div>
               <div className="space-y-1"><Label htmlFor="p-method">Metode pembayaran</Label>
                 <select id="p-method" className={selectCls} value={method} onChange={(e) => setMethod(e.target.value as PaymentMethod)}>
@@ -200,7 +204,8 @@ function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated
                 </select>
               </div>
             </div>
-            <p className="text-sm text-muted-foreground">Sisa utang: <span className="font-medium text-foreground">{formatRupiah(Math.max(0, total - (Number(paid) || 0)))}</span></p>
+            </div>}
+            <p className="text-sm text-muted-foreground">Sisa utang: <span className="font-medium text-foreground">{formatRupiah(Math.max(0, total - (allowPayment ? Number(paid) || 0 : 0)))}</span></p>
             <div className="space-y-1"><Label htmlFor="p-notes">Catatan</Label><Input id="p-notes" maxLength={300} value={notes} onChange={(e) => setNotes(e.target.value)} /></div>
             <label className="flex items-center gap-2 text-sm">
               <Checkbox checked={receive} onCheckedChange={(v) => setReceive(v === true)} />
@@ -215,6 +220,8 @@ function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated
 }
 
 function PurchaseDetail({ id, onClose }: { id: string; onClose: () => void }) {
+  const { profile } = useAuth();
+  const allowPayment = profile ? canRecordSupplierPayment(profile.role) : false;
   const qc = useQueryClient();
   const detail = useQuery({
     queryKey: ["purchase", id],
@@ -305,7 +312,7 @@ function PurchaseDetail({ id, onClose }: { id: string; onClose: () => void }) {
                   ))}
                 </ul>
               )}
-              {Number(d.remaining) > 0 && (
+              {allowPayment && Number(d.remaining) > 0 && (
                 <form onSubmit={(e) => { e.preventDefault(); pay.mutate(); }} className="mt-3 grid gap-2 sm:grid-cols-[1fr_140px_150px_auto]">
                   <Input aria-label="Nominal" type="number" min={1} max={Number(d.remaining)} placeholder="Nominal bayar" value={amount} onChange={(e) => setAmount(e.target.value)} />
                   <select aria-label="Metode" className={selectCls} value={method} onChange={(e) => setMethod(e.target.value as PaymentMethod)}>
