@@ -29,6 +29,8 @@ export const Route = createFileRoute("/produk")({
       { name: "description", content: "Kelola daftar produk toko komputer." },
       { property: "og:title", content: "Produk — Count Sales" },
       { property: "og:description", content: "Kelola daftar produk toko komputer." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ProdukPage,

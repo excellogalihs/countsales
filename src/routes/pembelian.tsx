@@ -203,7 +203,6 @@ function CreatePurchase({ onClose, onCreated }: { onClose: () => void; onCreated
                   {(Object.keys(paymentLabels) as PaymentMethod[]).map((m) => <option key={m} value={m}>{paymentLabels[m]}</option>)}
                 </select>
               </div>
-            </div>
             </div>}
             <p className="text-sm text-muted-foreground">Sisa utang: <span className="font-medium text-foreground">{formatRupiah(Math.max(0, total - (allowPayment ? Number(paid) || 0 : 0)))}</span></p>
             <div className="space-y-1"><Label htmlFor="p-notes">Catatan</Label><Input id="p-notes" maxLength={300} value={notes} onChange={(e) => setNotes(e.target.value)} /></div>

@@ -10,6 +10,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Sistem penjualan dan laporan keuangan untuk toko komputer." },
       { property: "og:title", content: "Count Sales — Penjualan Toko Komputer" },
       { property: "og:description", content: "Sistem penjualan dan laporan keuangan untuk toko komputer." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Dashboard,

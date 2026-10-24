@@ -24,6 +24,8 @@ export const Route = createFileRoute("/kategori")({
       { name: "description", content: "Kelompokkan produk berdasarkan jenisnya." },
       { property: "og:title", content: "Kategori — Count Sales" },
       { property: "og:description", content: "Kelompokkan produk berdasarkan jenisnya." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: KategoriPage,

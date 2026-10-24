@@ -29,6 +29,8 @@ export const Route = createFileRoute("/supplier")({
       { name: "description", content: "Kelola data pemasok barang." },
       { property: "og:title", content: "Supplier — Count Sales" },
       { property: "og:description", content: "Kelola data pemasok barang." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SupplierPage,

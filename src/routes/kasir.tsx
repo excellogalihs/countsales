@@ -21,6 +21,8 @@ export const Route = createFileRoute("/kasir")({
       { name: "description", content: "Catat penjualan langsung di kasir." },
       { property: "og:title", content: "Kasir — Count Sales" },
       { property: "og:description", content: "Catat penjualan langsung di kasir." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: KasirPage,

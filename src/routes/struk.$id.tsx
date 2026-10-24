@@ -18,6 +18,8 @@ export const Route = createFileRoute("/struk/$id")({
       { name: "description", content: "Struk transaksi penjualan." },
       { property: "og:title", content: "Struk Penjualan — Count Sales" },
       { property: "og:description", content: "Struk transaksi penjualan." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: StrukPage,

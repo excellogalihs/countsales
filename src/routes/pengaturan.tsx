@@ -78,6 +78,8 @@ export const Route = createFileRoute("/pengaturan")({
   head: () => ({
     meta: [
       { title: "Pengaturan — Count Sales" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "description", content: "Atur informasi toko, struk, dan hak akses pengguna." },
       { property: "og:title", content: "Pengaturan — Count Sales" },
       {
