@@ -6,6 +6,7 @@ export type Role = Database["public"]["Enums"]["app_role"];
 export const roleLabels: Record<Role, string> = {
   admin: "Admin",
   kasir: "Kasir",
+  input: "Input",
 };
 
 export type Profile = {

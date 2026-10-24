@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/components/AuthProvider";
+import { canDeleteInventory } from "@/lib/access";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
@@ -27,12 +29,16 @@ export const Route = createFileRoute("/supplier")({
       { name: "description", content: "Kelola data pemasok barang." },
       { property: "og:title", content: "Supplier — Count Sales" },
       { property: "og:description", content: "Kelola data pemasok barang." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: SupplierPage,
 });
 
 function SupplierPage() {
+  const { profile } = useAuth();
+  const allowDelete = profile ? canDeleteInventory(profile.role) : false;
   const qc = useQueryClient();
   const sups = useQuery({
     queryKey: ["suppliers"],
@@ -114,7 +120,7 @@ function SupplierPage() {
                     <td className="px-4 py-3 text-muted-foreground">{s.notes || "—"}</td>
                     <td className="whitespace-nowrap px-4 py-3 text-right">
                       <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => open(s)}><Pencil className="h-4 w-4" /></Button>
-                      <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete({ ...s, used: used(s) })}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                      {allowDelete && <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete({ ...s, used: used(s) })}><Trash2 className="h-4 w-4 text-destructive" /></Button>}
                     </td>
                   </tr>
                 ))}

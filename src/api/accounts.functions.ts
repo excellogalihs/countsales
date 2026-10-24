@@ -28,7 +28,7 @@ function readString(input: Input, key: string): string {
 
 function readRole(input: Input): Role {
   const value = input["role"];
-  if (value !== "admin" && value !== "kasir") throw new Error("Peran tidak valid.");
+  if (value !== "admin" && value !== "kasir" && value !== "input") throw new Error("Peran tidak valid.");
   return value;
 }
 
@@ -152,7 +152,7 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
     return { userId, username: data.username };
   });
 
-/** Admin: creates a Cashier or Admin account. */
+/** Admin: creates an account with one of the supported roles. */
 export const createAccount = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) => {

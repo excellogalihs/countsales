@@ -78,6 +78,8 @@ export const Route = createFileRoute("/pengaturan")({
   head: () => ({
     meta: [
       { title: "Pengaturan — Count Sales" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "description", content: "Atur informasi toko, struk, dan hak akses pengguna." },
       { property: "og:title", content: "Pengaturan — Count Sales" },
       {
@@ -94,7 +96,7 @@ function PengaturanPage() {
     <div>
       <PageHeader
         title="Pengaturan"
-        description="Kelola informasi toko yang tampil pada struk dan atur akun Admin serta Kasir."
+        description="Kelola informasi toko dan akun pengguna."
       />
       <Tabs defaultValue="toko">
         <TabsList className="mb-4">
@@ -431,7 +433,7 @@ function UserManagementTab() {
         <div>
           <CardTitle>Pengguna & Hak Akses</CardTitle>
           <CardDescription>
-            Admin mengelola seluruh aplikasi. Kasir hanya untuk penjualan dan riwayat transaksi.
+            Admin · Kasir · Input
           </CardDescription>
         </div>
         <Button onClick={() => setCreateOpen(true)}>
@@ -487,6 +489,7 @@ function UserManagementTab() {
                           <SelectContent>
                             <SelectItem value="admin">Admin</SelectItem>
                             <SelectItem value="kasir">Kasir</SelectItem>
+                            <SelectItem value="input">Input</SelectItem>
                           </SelectContent>
                         </Select>
                       )}
@@ -595,7 +598,7 @@ function CreateUserDialog({
         <DialogHeader>
           <DialogTitle>Tambah pengguna</DialogTitle>
           <DialogDescription>
-            Buat akun baru dengan peran Admin atau Kasir. Kata sandi disimpan dalam bentuk hash.
+            Tambah akun Admin, Kasir, atau Input.
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={submit} noValidate>
@@ -634,6 +637,7 @@ function CreateUserDialog({
               <SelectContent>
                 <SelectItem value="kasir">Kasir</SelectItem>
                 <SelectItem value="admin">Admin</SelectItem>
+                <SelectItem value="input">Input</SelectItem>
               </SelectContent>
             </Select>
           </div>

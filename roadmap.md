@@ -1,4 +1,5 @@
 # Current tasks
+- [x] Add Input role for product entry, purchasing and stock receipt with backend permission checks and verified flows.
 - [ ] Replace the Dashboard empty state with real summaries: today's sales, low-stock products, recent transactions.
 - [x] Persist store settings and apply them to receipts.
 - [x] Add username login with master/Admin and kasir/Cashier accounts.

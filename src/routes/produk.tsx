@@ -19,6 +19,8 @@ import {
   type Product, type ProductForm,
 } from "@/lib/catalog";
 import { formatRupiah } from "@/lib/format";
+import { useAuth } from "@/components/AuthProvider";
+import { canDeleteInventory } from "@/lib/access";
 
 export const Route = createFileRoute("/produk")({
   head: () => ({
@@ -27,6 +29,8 @@ export const Route = createFileRoute("/produk")({
       { name: "description", content: "Kelola daftar produk toko komputer." },
       { property: "og:title", content: "Produk — Count Sales" },
       { property: "og:description", content: "Kelola daftar produk toko komputer." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: ProdukPage,
@@ -35,6 +39,8 @@ export const Route = createFileRoute("/produk")({
 const selectCls = "h-9 w-full rounded-md border border-input bg-card px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring";
 
 function ProdukPage() {
+  const { profile } = useAuth();
+  const allowDelete = profile ? canDeleteInventory(profile.role) : false;
   const qc = useQueryClient();
   const prods = useQuery(productsQuery);
   const cats = useQuery(categoriesQuery);
@@ -174,7 +180,7 @@ function ProdukPage() {
                   </td>
                   <td className="whitespace-nowrap px-4 py-3 text-right">
                     <Button variant="ghost" size="icon" aria-label="Edit" onClick={() => open(p)}><Pencil className="h-4 w-4" /></Button>
-                    <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete(p)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
+                    {allowDelete && <Button variant="ghost" size="icon" aria-label="Hapus" onClick={() => setToDelete(p)}><Trash2 className="h-4 w-4 text-destructive" /></Button>}
                   </td>
                 </tr>
               ))}

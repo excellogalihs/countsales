@@ -505,7 +505,7 @@ export type Database = {
       receive_purchase: { Args: { _purchase_id: string }; Returns: undefined }
     }
     Enums: {
-      app_role: "admin" | "kasir"
+      app_role: "admin" | "kasir" | "input"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -633,7 +633,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "kasir"],
+      app_role: ["admin", "kasir", "input"],
     },
   },
 } as const

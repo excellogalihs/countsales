@@ -36,12 +36,12 @@ export type NavItem = {
 
 export const navItems: readonly NavItem[] = [
   { to: "/", label: "Dashboard", icon: LayoutDashboard, roles: ["admin", "kasir"] },
-  { to: "/produk", label: "Produk", icon: Package, roles: ["admin"] },
-  { to: "/kategori", label: "Kategori", icon: Tags, roles: ["admin"] },
+  { to: "/produk", label: "Produk", icon: Package, roles: ["admin", "input"] },
+  { to: "/kategori", label: "Kategori", icon: Tags, roles: ["admin", "input"] },
   { to: "/kasir", label: "Kasir", icon: Calculator, roles: ["admin", "kasir"] },
   { to: "/penjualan", label: "Riwayat Penjualan", icon: ShoppingCart, roles: ["admin", "kasir"] },
-  { to: "/pembelian", label: "Pembelian Stok", icon: PackagePlus, roles: ["admin"] },
-  { to: "/supplier", label: "Supplier", icon: Truck, roles: ["admin"] },
+  { to: "/pembelian", label: "Pembelian Stok", icon: PackagePlus, roles: ["admin", "input"] },
+  { to: "/supplier", label: "Supplier", icon: Truck, roles: ["admin", "input"] },
   { to: "/pengeluaran", label: "Pengeluaran", icon: Wallet, roles: ["admin"] },
   { to: "/laporan", label: "Laporan Keuangan", icon: FileBarChart, roles: ["admin"] },
   { to: "/pengaturan", label: "Pengaturan", icon: Settings, roles: ["admin"] },

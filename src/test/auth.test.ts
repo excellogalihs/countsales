@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canAccessPath, landingPath, rolesForPath } from "@/lib/access";
+import { canAccessPath, canDeleteInventory, canRecordSupplierPayment, landingPath, rolesForPath } from "@/lib/access";
 import {
   normalizeUsername,
   passwordsMatch,
@@ -54,6 +54,28 @@ describe("password rules", () => {
 });
 
 describe("route access by role", () => {
+  it("allows Input to enter products and inventory purchases", () => {
+    for (const path of ["/produk", "/kategori", "/supplier", "/pembelian"]) {
+      expect(canAccessPath("input", path)).toBe(true);
+    }
+    expect(landingPath("input")).toBe("/produk");
+  });
+
+  it("denies Input sales, financial reports, expenses and user settings", () => {
+    for (const path of ["/", "/kasir", "/penjualan", "/struk/123", "/laporan", "/pengeluaran", "/pengaturan"]) {
+      expect(canAccessPath("input", path)).toBe(false);
+    }
+  });
+
+  it("reserves inventory deletion for Admin", () => {
+    expect(canDeleteInventory("input")).toBe(false);
+    expect(canDeleteInventory("admin")).toBe(true);
+  });
+
+  it("reserves supplier payment entry for Admin", () => {
+    expect(canRecordSupplierPayment("input")).toBe(false);
+    expect(canRecordSupplierPayment("admin")).toBe(true);
+  });
   it("lets Admin open management pages", () => {
     for (const path of ["/produk", "/laporan", "/pengaturan", "/pembelian", "/pengeluaran"]) {
       expect(canAccessPath("admin", path)).toBe(true);
@@ -85,6 +107,9 @@ describe("route access by role", () => {
 });
 
 describe("navigation", () => {
+  it("shows Input only the inventory-entry sections", () => {
+    expect(navItemsFor("input").map((item) => item.to)).toEqual(["/produk", "/kategori", "/pembelian", "/supplier"]);
+  });
   it("hides Admin-only links from Kasir", () => {
     const labels = navItemsFor("kasir").map((item) => item.label);
     expect(labels).toEqual(["Dashboard", "Kasir", "Riwayat Penjualan"]);

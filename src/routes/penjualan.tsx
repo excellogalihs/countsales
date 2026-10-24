@@ -18,6 +18,8 @@ export const Route = createFileRoute("/penjualan")({
       { name: "description", content: "Riwayat dan detail transaksi penjualan." },
       { property: "og:title", content: "Riwayat Penjualan — Count Sales" },
       { property: "og:description", content: "Riwayat dan detail transaksi penjualan." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PenjualanPage,

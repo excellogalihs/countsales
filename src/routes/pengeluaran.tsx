@@ -28,6 +28,8 @@ export const Route = createFileRoute("/pengeluaran")({
       { name: "description", content: "Catat biaya operasional toko." },
       { property: "og:title", content: "Pengeluaran — Count Sales" },
       { property: "og:description", content: "Catat biaya operasional toko." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PengeluaranPage,
