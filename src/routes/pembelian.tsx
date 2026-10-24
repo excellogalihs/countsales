@@ -29,6 +29,8 @@ export const Route = createFileRoute("/pembelian")({
       { name: "description", content: "Catat pembelian stok, penerimaan barang, dan utang supplier." },
       { property: "og:title", content: "Pembelian Stok — Count Sales" },
       { property: "og:description", content: "Catat pembelian stok, penerimaan barang, dan utang supplier." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PembelianPage,
