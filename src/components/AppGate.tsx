@@ -62,12 +62,11 @@ function AccessDenied({ role }: { role: Role }) {
       </div>
       <h2 className="text-base font-semibold">Akses ditolak</h2>
       <p className="mt-1 max-w-sm text-sm text-muted-foreground">
-        Halaman ini hanya tersedia untuk Admin. Akun {roleLabels[role]} hanya dapat mengakses Kasir
-        dan Riwayat Penjualan.
+        Halaman ini tidak tersedia untuk akun {roleLabels[role]}.
       </p>
       <Button className="mt-5" asChild>
-        <Link to={role === "kasir" ? "/kasir" : "/"}>
-          Kembali ke {role === "kasir" ? "Kasir" : "Dashboard"}
+        <Link to={role === "kasir" ? "/kasir" : role === "input" ? "/produk" : "/"}>
+          Kembali ke {role === "kasir" ? "Kasir" : role === "input" ? "Produk" : "Dashboard"}
         </Link>
       </Button>
     </div>

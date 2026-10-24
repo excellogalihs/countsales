@@ -11,10 +11,10 @@ export const routeRoles: Record<string, readonly Role[]> = {
   "/kasir": ["admin", "kasir"],
   "/penjualan": ["admin", "kasir"],
   "/struk": ["admin", "kasir"],
-  "/produk": ["admin"],
-  "/kategori": ["admin"],
-  "/pembelian": ["admin"],
-  "/supplier": ["admin"],
+  "/produk": ["admin", "input"],
+  "/kategori": ["admin", "input"],
+  "/pembelian": ["admin", "input"],
+  "/supplier": ["admin", "input"],
   "/pengeluaran": ["admin"],
   "/laporan": ["admin"],
   "/pengaturan": ["admin"],
@@ -39,5 +39,8 @@ export function canAccessPath(role: Role, pathname: string): boolean {
 
 /** Where a role lands when it asks for a page it may not open. */
 export function landingPath(role: Role): string {
-  return role === "kasir" ? "/kasir" : "/";
+  return role === "kasir" ? "/kasir" : role === "input" ? "/produk" : "/";
 }
+
+export const canDeleteInventory = (role: Role) => role === "admin";
+export const canRecordSupplierPayment = (role: Role) => role === "admin";
