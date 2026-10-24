@@ -43,6 +43,13 @@
       "when": 1792592865585,
       "tag": "0005_setup_check_and_account_defaults",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792811152441,
+      "tag": "0006_add_input_role",
+      "breakpoints": true
     }
   ]
 }
