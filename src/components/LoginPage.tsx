@@ -82,7 +82,7 @@ export function LoginPage() {
               <p className="text-xs text-muted-foreground">
                 {setup
                   ? "Belum ada akun. Buat akun Admin pertama untuk mulai memakai aplikasi."
-                  : "Gunakan akun Admin atau Kasir yang diberikan kepadamu."}
+                  : "Gunakan akun yang diberikan kepadamu."}
               </p>
             </div>
           </div>
