@@ -50,6 +50,13 @@
       "when": 1792811152441,
       "tag": "0006_add_input_role",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792811204153,
+      "tag": "0007_input_inventory_permissions",
+      "breakpoints": true
     }
   ]
 }
