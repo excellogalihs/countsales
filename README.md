@@ -46,18 +46,6 @@ Konfigurasi koneksi Supabase dibaca dari `.env`
 | Laporan Keuangan | `/laporan` | Laba rugi, arus kas, persediaan |
 | Pengaturan | `/pengaturan` | Info toko & struk, pengguna dan hak akses |
 
-## Peran pengguna
-
-- **Admin** — pengaturan, produk, pembelian, pengeluaran, laporan, dan
-  pengelolaan pengguna.
-- **Kasir** — penjualan (Kasir) dan riwayat transaksi.
-
-Akun pertama (Admin) dibuat dari layar masuk saat aplikasi belum punya akun.
-Setelah itu, hanya Admin yang dapat menambah pengguna, mengubah peran, dan
-mereset kata sandi melalui **Pengaturan → Pengguna**. Kata sandi disimpan
-sebagai hash oleh Supabase Auth dan tidak pernah ditulis ke tabel aplikasi.
-Izin juga ditegakkan di database lewat RLS, bukan hanya dengan menyembunyikan
-tombol.
 
 ## Catatan pengembangan
 
